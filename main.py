@@ -39,7 +39,7 @@ def standardize_data(row):
 # Hàm load danh sách các từ vô nghĩa: lắm, ạ, à, bị, vì..
 def load_stopwords():
     sw = []
-    with open("stopwords.txt", encoding='utf-8') as f:
+    with open("remove.txt", encoding='utf-8') as f:
         lines = f.readlines()
     for line in lines:
         sw.append(line.replace("\n",""))
@@ -74,7 +74,7 @@ def make_bert_features(v_text):
         # Phân thành từng từ
         line = underthesea.word_tokenize(i_text)
         # Lọc các từ vô nghĩa
-        filtered_sentence = [w for w in line]
+        filtered_sentence = [w for w in line if not w in sw]
         # Ghép lại thành câu như cũ sau khi lọc
         line = " ".join(filtered_sentence)
         line = underthesea.word_tokenize(line, format="text")
@@ -107,7 +107,7 @@ def make_bert_features(v_text):
 
 
 print("Chuẩn bị nạp danh sách các từ vô nghĩa (stopwords)...")
-# sw = load_stopwords()
+sw = load_stopwords()
 print("Đã nạp xong danh sách các từ vô nghĩa")
 
 print("Chuẩn bị nạp model BERT....")

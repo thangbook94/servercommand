@@ -15,6 +15,11 @@ def create_app():
     v_tokenizer = AutoTokenizer.from_pretrained("vinai/phobert-base", use_fast=False)
     with open('save_model.pkl', 'rb') as fid:
         svm_model = load(fid)
+    sw = []
+    with open("remove.txt", encoding='utf-8') as f:
+        lines = f.readlines()
+    for line in lines:
+        sw.append(line.replace("\n", ""))
 
     @app.route('/', methods=['GET', 'POST'])
     def hello():
@@ -25,7 +30,7 @@ def create_app():
         # Phân thành từng từ
         line = underthesea.word_tokenize(text)
         # Lọc các từ vô nghĩa
-        filtered_sentence = [w for w in line]
+        filtered_sentence = [w for w in line if not w in sw]
         # Ghép lại thành câu như cũ sau khi lọc
         line = " ".join(filtered_sentence)
         line = underthesea.word_tokenize(line, format="text")
