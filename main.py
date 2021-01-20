@@ -5,6 +5,7 @@ import torch
 import numpy
 import re
 import underthesea
+import vncorenlp
 
 from sklearn.model_selection import train_test_split # Thư viện chia tách dữ liệu
 
