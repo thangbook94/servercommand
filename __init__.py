@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import request
 from joblib import load
+from flask_cors import CORS, cross_origin
 import numpy
 import torch
 import underthesea
@@ -10,6 +11,8 @@ from flask import jsonify
 
 def create_app():
     app = Flask(__name__)
+    cors = CORS(app)
+    app.config['CORS_HEADERS'] = 'Content-Type'
     max_len = 20
     v_phobert = AutoModel.from_pretrained("vinai/phobert-base")
     v_tokenizer = AutoTokenizer.from_pretrained("vinai/phobert-base", use_fast=False)
